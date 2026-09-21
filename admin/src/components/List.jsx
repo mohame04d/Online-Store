@@ -31,7 +31,7 @@ const List = () => {
     } 
 
   return (
-    <section className="relative w-full md:64 min-h-screen bg-linear-to-r
+    <section className="relative md:ml-64 min-h-screen bg-linear-to-r
      from-indigo-900 via-purple-800 to-pink-900 text-white py-24 px-6 sm:px-10">
 
       <div className="relative z-10 max-w-6xl mx-auto">

@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
-import axios from 'axios'
+import { toast } from "react-toastify";
+import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const SignUp = () => {
   e.preventDefault();
 
   if (formData.password !== formData.confirmPassword) {
-    alert("كلمة المرور غير متطابقة");
+    toast.error("كلمة المرور غير متطابقة");
     return;
   }
 
@@ -45,9 +46,10 @@ const SignUp = () => {
     if (res.data.token) {
       setToken(res.data.token);
       localStorage.setItem("token", res.data.token);
+      toast.success(res.data.message || "تم إنشاء الحساب بنجاح!");
       navigate("/");
     } else {
-      alert(res.data.message);
+      toast.error(res.data.message);
     }
   } catch (err) {
     console.log(err.response?.data); // 👈 مهم لو في error

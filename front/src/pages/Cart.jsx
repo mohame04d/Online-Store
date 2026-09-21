@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const {
@@ -25,7 +26,7 @@ const Cart = () => {
       ...product,
       quantity: cartItems[id],
     };
-  });
+  }).filter(Boolean);
 
   return (
   <section className="relative w-full min-h-screen bg-linear-to-r from-indigo-900 via-purple-900 to-pink-950
@@ -112,7 +113,14 @@ const Cart = () => {
           <span className="text-cyan-400 ml-3">${total.toFixed(2)}</span>
         </div>
 
-        <button onClick={()=> navigate("/order")} className="flex items-center gap-3 bg-linear-to-r
+        <button onClick={()=> {
+          if (!localStorage.getItem("token")) {
+            toast.error("يرجى تسجيل الدخول أولاً لإتمام الطلب!");
+            navigate("/login");
+          } else {
+            navigate("/order");
+          }
+        }} className="flex items-center gap-3 bg-linear-to-r
         from-indigo-500 via-purple-500 to-pink-500 py-4 rounded-2xl font-semibold hover:opacity-90
         transition-all text-white shadow-lg">
           <ShoppingBag className="w-5 h-5"/>متابعة الشراء

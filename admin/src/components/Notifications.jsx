@@ -42,7 +42,7 @@ const Notifications = () => {
   }, []);
 
  return (
-  <section className="lg:ml-64 min-h-screen bg-linear-to-r from-indigo-900 via-purple-900 to-pink-900
+  <section className="relative md:ml-64 min-h-screen bg-linear-to-r from-indigo-900 via-purple-900 to-pink-900
    text-white py-24 px-6 sm:px-10">
     <div className="max-w-5xl mx-auto">
 

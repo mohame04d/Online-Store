@@ -1,13 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import { all_products } from "../assets/data";
 import { ShoppingBag } from "lucide-react";
 import { ShopContext } from "../context/ShopContext";
 
 const Offer = () => {
-  const { addToCart } = useContext(ShopContext);
+  const { addToCart, all_products, url } = useContext(ShopContext);
 
   const [timeLeft, setTimeLeft] = useState({});
-  const [products, setProducts] = useState(all_products.slice(0, 12)); // أول 12 منتج
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (all_products && all_products.length > 0) {
+      setProducts(all_products.slice(0, 12));
+    } else {
+      setProducts([]);
+    }
+  }, [all_products]);
 
   useEffect(() => {
     const targetDate = new Date();
@@ -72,7 +79,7 @@ const Offer = () => {
               <div className="relative w-full h-64 flex items-center justify-center bg-gradient-to-b
                from-purple-800/40 to-transparent">
                 <img
-                  src={product.image}
+                  src={`${url}/images/${product.image}`}
                   alt={product.name}
                   className="object-contain w-56 h-56 hover:scale-110 transition-transform duration-500"
                 />

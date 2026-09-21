@@ -4,11 +4,12 @@ import fs from "fs";
 
 export const addProduct = catchAsync(async (req, res) => {
   let image_filename = `${req.file.filename}`;
-  const { name, description, price } = req.body;
+  const { name, description, price, category } = req.body;
   const newProduct = new productModel({
     name, 
     description,
     price,
+    category,
     image: image_filename,
   });
   await newProduct.save();

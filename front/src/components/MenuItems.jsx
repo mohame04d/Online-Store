@@ -10,6 +10,7 @@ import {
 import { Link as ScrollLink } from "react-scroll";
 import { useNavigate ,useLocation } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
+import { toast } from "react-toastify";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const menuItemsData = [
@@ -21,17 +22,20 @@ export const menuItemsData = [
 
 const MenuItems = ({ setSideBarOpen , isMobile }) => {
   
-  const { cartItems , token , setToken } = useContext(ShopContext);
+  const { cartItems, token, setToken, getTotalCartItems, setCartItems } = useContext(ShopContext);
 
   const location = useLocation();
 
-  const totalItems = Object.values(cartItems).reduce((a, b) => a + b, 0);
+  const totalItems = getTotalCartItems();
 
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setToken(false);
+    localStorage.removeItem("cartItems");
+    setToken("");
+    setCartItems({});
+    toast.info("تم تسجيل الخروج!");
     navigate("/");
     setSideBarOpen && setSideBarOpen(false);
   };

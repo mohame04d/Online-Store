@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
-import axios from 'axios'
+import { toast } from "react-toastify";
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,9 +42,10 @@ const Login = () => {
    if (res.data.token) {
   setToken(res.data.token);
   localStorage.setItem("token", res.data.token);
+  toast.success(res.data.message || "تم تسجيل الدخول بنجاح!");
   navigate("/");
 } else {
-  alert(res.data.message);
+  toast.error(res.data.message);
 }
 
   } catch (err) {

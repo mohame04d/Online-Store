@@ -85,7 +85,7 @@ const Orders = () => {
   // MAIN UI
   // ========================
   return (
-    <section className="relative w-full md:ml-64 min-h-screen bg-gradient-to-r from-indigo-900
+    <section className="relative md:ml-64 min-h-screen bg-gradient-to-r from-indigo-900
      via-purple-900 to-pink-900 text-white py-24 px-6 sm:px-10">
 
       {orders.length === 0 ? (

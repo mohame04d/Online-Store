@@ -44,7 +44,7 @@ const Categories = () => {
         {
           categories.map((cat)=>(
             <button key={cat.name} onClick={()=> setSelectedCategory(cat.name)} className={`px-6 py-3
-            rounded-2xl font-semibold text-lg transition-all shadow-lg ${selectedCategory==='All'?
+            rounded-2xl font-semibold text-lg transition-all shadow-lg ${selectedCategory===cat.name ?
               "bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-cyan-400/50 scale-105":
               "bg-white/10 hover:bg-white/20 text-gray-200"
             }`}>{cat.name}

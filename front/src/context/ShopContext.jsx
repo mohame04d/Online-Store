@@ -1,22 +1,18 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const ShopContext = createContext();
 
 const ShopContextProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState({});
+  const [cartItems, setCartItems] = useState(() => {
+    const stored = localStorage.getItem("cartItems");
+    return stored ? JSON.parse(stored) : {};
+  });
   const url = "http://localhost:4000";
 
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [products, setProducts] = useState([]);
-
-  // تحميل الكارت من LocalStorage أول مرة
-  useEffect(() => {
-    const storedCart = localStorage.getItem("cartItems");
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
-    }
-  }, []);
 
   // حفظ الكارت في LocalStorage
   useEffect(() => {
@@ -30,6 +26,11 @@ const ShopContextProvider = ({ children }) => {
 
   // إضافة منتج
   const addToCart = async (id, quantity = 1) => {
+    if (!token && !localStorage.getItem("token")) {
+      toast.error("يرجى تسجيل الدخول أولاً لإضافة منتجات للسلة!");
+      return;
+    }
+
     setCartItems((prev) => ({
       ...prev,
       [id]: prev[id] ? prev[id] + quantity : quantity,
@@ -82,6 +83,14 @@ const ShopContextProvider = ({ children }) => {
     return Object.entries(cartItems).reduce((total, [id, qty]) => {
       const product = products.find((p) => p._id === id);
       return total + (product ? product.price * qty : 0);
+    }, 0);
+  };
+
+  // حساب عدد المنتجات الحقيقية الموجودة في السلة
+  const getTotalCartItems = () => {
+    return Object.entries(cartItems).reduce((total, [id, qty]) => {
+      const product = products.find((p) => p._id === id);
+      return total + (product ? qty : 0);
     }, 0);
   };
 
@@ -139,6 +148,7 @@ const ShopContextProvider = ({ children }) => {
     removeFromCart,
     clearCart,
     getTotalCartAmount,
+    getTotalCartItems,
     token,
     setToken,
     setCartItems,
